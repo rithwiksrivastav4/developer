@@ -1,0 +1,743 @@
+# React and Node.js Developer (2 Years Experience) Interview Preparation Guide
+
+## 1. JavaScript Fundamentals
+
+### Important Concepts
+
+A 2-year experience React and Node.js developer should have strong knowledge of:
+
+- Variables: var, let, const
+- Data types
+- Operators
+- Loops
+- Functions
+- Arrow functions
+- Callback functions
+- Higher-order functions
+- ES6+ features
+- Destructuring
+- Spread and Rest operators
+- Template literals
+- Modules (import/export)
+
+### Interview Questions
+
+**Q1. Difference between var, let, and const?**
+
+Answer:
+- var has function scope and allows redeclaration.
+- let has block scope and allows value reassignment.
+- const has block scope and does not allow reassignment.
+
+---
+
+**Q2. What are arrow functions?**
+
+Answer:
+Arrow functions provide shorter syntax for writing functions and do not have their own `this` context.
+
+---
+
+**Q3. What is the difference between map(), filter(), and reduce()?**
+
+Answer:
+
+map():
+- Used to transform every array element.
+
+filter():
+- Used to return elements based on a condition.
+
+reduce():
+- Used to generate a single output value.
+
+---
+
+# 2. Advanced JavaScript Concepts
+
+## Closures
+
+A closure is a function that remembers variables from its outer scope even after the outer function execution is completed.
+
+Example use cases:
+
+- React hooks
+- Private variables
+- Callbacks
+
+
+### Interview Questions
+
+**Q1. Explain closure with an example.**
+
+**Q2. Where are closures used in React?**
+
+Answer:
+Closures are commonly used in hooks like useState and useEffect because functions remember previous state values.
+
+---
+
+## Hoisting
+
+Hoisting is JavaScript behavior where variable and function declarations are moved to the top of their scope during execution.
+
+### Interview Questions
+
+**Q1. What is hoisting?**
+
+**Q2. Difference between function hoisting and variable hoisting?**
+
+---
+
+## Promise and Async/Await
+
+Promises handle asynchronous operations.
+
+States:
+
+- Pending
+- Fulfilled
+- Rejected
+
+
+### Interview Questions
+
+**Q1. Difference between Promise and async/await?**
+
+Answer:
+
+Promise:
+- Uses then() and catch()
+
+Async/Await:
+- Cleaner syntax
+- Easier error handling
+
+---
+
+# 3. React.js Concepts
+
+## React Fundamentals
+
+Important topics:
+
+- Components
+- JSX
+- Props
+- State
+- Virtual DOM
+- Rendering
+- Component lifecycle
+
+
+## Components
+
+Types:
+
+- Functional Components
+- Class Components
+
+
+### Interview Questions
+
+**Q1. What is React?**
+
+Answer:
+
+React is a JavaScript library used to build reusable and interactive user interfaces.
+
+---
+
+**Q2. Difference between props and state?**
+
+Props:
+- Data passed from parent to child.
+- Read-only.
+
+State:
+- Internal component data.
+- Can be updated.
+
+
+---
+
+# 4. React Hooks
+
+## useState()
+
+Used for managing component state.
+
+Example:
+
+```javascript
+const [count,setCount] = useState(0);
+```
+
+
+## useEffect()
+
+Used for:
+
+- API calls
+- Side effects
+- Subscriptions
+
+
+## useMemo()
+
+Used for performance optimization by caching calculated values.
+
+
+## useCallback()
+
+Used to prevent unnecessary function recreation.
+
+
+## useRef()
+
+Used for:
+
+- Accessing DOM elements
+- Storing mutable values
+
+
+### Interview Questions
+
+**Q1. Difference between useMemo and useCallback?**
+
+Answer:
+
+useMemo:
+- Stores calculated values.
+
+useCallback:
+- Stores function references.
+
+
+---
+
+**Q2. When does useEffect execute?**
+
+Answer:
+
+- After component rendering.
+- Based on dependency array.
+
+
+---
+
+# 5. React Advanced Concepts
+
+## React Router
+
+Important concepts:
+
+- BrowserRouter
+- Routes
+- Route
+- Navigate
+- useNavigate
+- useParams
+
+
+### Interview Questions
+
+**Q1. How do you create protected routes?**
+
+Answer:
+
+Using authentication checks and route guards.
+
+---
+
+## State Management
+
+Tools:
+
+- Redux Toolkit
+- Context API
+- Zustand
+
+
+Redux concepts:
+
+- Store
+- Slice
+- Reducer
+- Action
+- Dispatch
+- Selector
+
+
+### Interview Questions
+
+**Q1. Why use Redux?**
+
+Answer:
+
+Redux helps manage global application state in large applications.
+
+---
+
+# 6. API Integration in React
+
+Important concepts:
+
+- Axios
+- Fetch API
+- API error handling
+- Loading states
+- Authentication headers
+- Interceptors
+
+
+### Interview Questions
+
+**Q1. Difference between Axios and Fetch?**
+
+Axios:
+- Automatic JSON conversion.
+- Supports interceptors.
+
+Fetch:
+- Browser built-in API.
+
+
+---
+
+**Q2. How do you handle API errors?**
+
+Answer:
+
+Using:
+
+- try/catch
+- Error boundaries
+- API response validation
+
+
+---
+
+# 7. Authentication in React
+
+JWT Authentication Flow:
+
+1. User logs in.
+2. Backend validates credentials.
+3. Backend generates JWT token.
+4. Frontend stores token.
+5. Token is sent with API requests.
+
+
+### Interview Questions
+
+**Q1. Where should JWT tokens be stored?**
+
+Answer:
+
+Prefer secure HttpOnly cookies for sensitive applications.
+
+---
+
+# 8. Node.js Fundamentals
+
+Important concepts:
+
+- Node runtime
+- Event loop
+- Non-blocking I/O
+- Modules
+- npm
+
+
+### Interview Questions
+
+**Q1. Why is Node.js fast?**
+
+Answer:
+
+Because it uses asynchronous non-blocking operations and an event-driven architecture.
+
+---
+
+**Q2. Explain Node.js event loop.**
+
+Answer:
+
+The event loop allows Node.js to handle multiple operations without blocking the main thread.
+
+---
+
+# 9. Express.js
+
+Important concepts:
+
+- Routing
+- Middleware
+- Controllers
+- Services
+- Error handling
+
+
+Example structure:
+
+```
+src
+ |
+ |-- routes
+ |-- controllers
+ |-- services
+ |-- models
+ |-- middleware
+ |-- utils
+```
+
+
+### Interview Questions
+
+**Q1. What is middleware in Express?**
+
+Answer:
+
+Middleware is a function that executes between request and response.
+
+
+Examples:
+
+- Authentication
+- Logging
+- Validation
+
+
+---
+
+**Q2. Difference between req.params, req.query, and req.body?**
+
+req.params:
+- URL parameters.
+
+req.query:
+- Query string values.
+
+req.body:
+- Request payload.
+
+
+---
+
+# 10. REST API Development
+
+HTTP Methods:
+
+GET:
+- Fetch data
+
+POST:
+- Create data
+
+PUT:
+- Replace data
+
+PATCH:
+- Update partial data
+
+DELETE:
+- Remove data
+
+
+### Interview Questions
+
+**Q1. Difference between PUT and PATCH?**
+
+PUT:
+- Updates complete resource.
+
+PATCH:
+- Updates partial resource.
+
+
+---
+
+# 11. Authentication Backend
+
+Important concepts:
+
+- JWT
+- bcrypt
+- Password hashing
+- Authorization
+- Role-based access
+
+
+### Interview Questions
+
+**Q1. How do you secure passwords?**
+
+Answer:
+
+Using bcrypt hashing with salt.
+
+
+---
+
+**Q2. Authentication vs Authorization?**
+
+Authentication:
+- Verifies user identity.
+
+Authorization:
+- Checks user permissions.
+
+---
+
+# 12. Database Concepts
+
+## SQL
+
+Important topics:
+
+- Tables
+- Relationships
+- Primary key
+- Foreign key
+- Joins
+- Indexes
+- Transactions
+
+
+### Interview Questions
+
+**Q1. Difference between INNER JOIN and LEFT JOIN?**
+
+INNER JOIN:
+- Returns matching records.
+
+LEFT JOIN:
+- Returns all left table records and matching right records.
+
+
+---
+
+## MongoDB
+
+Concepts:
+
+- Database
+- Collections
+- Documents
+- Schema
+- Mongoose
+
+
+### Interview Questions
+
+**Q1. Difference between SQL and MongoDB?**
+
+SQL:
+- Relational database.
+
+MongoDB:
+- Document-based database.
+
+
+---
+
+# 13. Testing
+
+Frontend:
+
+- Jest
+- React Testing Library
+
+
+Backend:
+
+- Jest
+- Supertest
+
+
+### Interview Questions
+
+**Q1. Difference between unit testing and integration testing?**
+
+Unit Testing:
+- Tests individual functions/components.
+
+Integration Testing:
+- Tests multiple modules together.
+
+---
+
+# 14. Git Concepts
+
+Important commands:
+
+```
+git clone
+git pull
+git push
+git branch
+git merge
+git rebase
+git stash
+git cherry-pick
+git reset
+git revert
+```
+
+
+### Interview Questions
+
+**Q1. Difference between git reset and git revert?**
+
+Reset:
+- Removes commits from history.
+
+Revert:
+- Creates a new commit undoing changes.
+
+
+---
+
+**Q2. What is merge conflict?**
+
+A merge conflict occurs when Git cannot automatically combine changes from different branches.
+
+---
+
+# 15. Docker Basics
+
+Important concepts:
+
+- Image
+- Container
+- Dockerfile
+- Docker Compose
+
+
+### Interview Questions
+
+**Q1. Difference between Docker image and container?**
+
+Image:
+- Blueprint of application.
+
+Container:
+- Running instance of image.
+
+
+---
+
+# 16. Deployment Knowledge
+
+Expected knowledge:
+
+Frontend:
+
+- Vercel
+- Netlify
+- Nginx
+
+
+Backend:
+
+- AWS EC2
+- PM2
+- Docker
+
+
+### Interview Questions
+
+**Q1. How do you deploy a React application?**
+
+Answer:
+
+1. Build React project.
+2. Upload build files.
+3. Configure web server.
+4. Connect domain.
+
+
+---
+
+# 17. Real Project Scenario Questions
+
+## React Scenario Questions
+
+1. How do you improve React performance?
+
+Expected Answer:
+
+- React.memo
+- useMemo
+- useCallback
+- Lazy loading
+- Code splitting
+
+
+2. How do you handle large forms?
+
+Expected Answer:
+
+- React Hook Form
+- Validation libraries
+- Controlled components
+
+
+3. How do you manage authentication?
+
+Expected Answer:
+
+- JWT
+- Protected routes
+- Axios interceptors
+
+
+---
+
+## Node.js Scenario Questions
+
+1. How do you design scalable APIs?
+
+Expected Answer:
+
+- Proper folder structure
+- Service layer
+- Middleware
+- Database optimization
+- Error handling
+
+
+2. How do you secure APIs?
+
+Expected Answer:
+
+- JWT
+- Helmet
+- CORS
+- Rate limiting
+- Input validation
+
+
+---
+
+# Final Preparation Checklist
+
+For a 2-year React + Node.js developer, prepare:
+
+- JavaScript fundamentals
+- ES6+
+- React hooks
+- Redux Toolkit
+- API integration
+- Authentication
+- Node.js event loop
+- Express middleware
+- REST APIs
+- SQL/MongoDB
+- Git
+- Docker basics
+- Deployment
+- Real project explanation
+
+This preparation level is suitable for React + Node.js developer interviews with approximately 2 years of experience.
