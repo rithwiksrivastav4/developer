@@ -2457,3 +2457,646 @@ This means:
 - `2>/dev/null` → ignore permission errors
 
 So you get a clean result without all the macOS permission noise.
+
+
+# Linux/macOS Users, Groups, and Permissions
+
+Linux/macOS permissions control **who can access files and directories** and what they can do with them.
+
+The basic relationship is:
+
+```text
+User → belongs to → Group → has permissions on → Files/Directories
+```
+
+## 1. Permission Categories
+
+Permissions are divided into three categories:
+
+```text
+User (owner) | Group | Others
+```
+
+Each category can have:
+
+```text
+r = read
+w = write
+x = execute
+```
+
+| Permission | Meaning |
+|---|---|
+| `r` | Read |
+| `w` | Write |
+| `x` | Execute |
+| `-` | No permission |
+
+---
+
+## 2. Create a User
+
+On Linux:
+
+```bash
+sudo useradd john
+```
+
+Create the user's home directory:
+
+```bash
+sudo useradd -m john
+```
+
+Set a password:
+
+```bash
+sudo passwd john
+```
+
+Check the user:
+
+```bash
+id john
+```
+
+Example:
+
+```text
+uid=1001(john) gid=1001(john) groups=1001(john)
+```
+
+---
+
+## 3. Create a Group
+
+```bash
+sudo groupadd developers
+```
+
+Check the group:
+
+```bash
+getent group developers
+```
+
+---
+
+## 4. Add a User to a Group
+
+```bash
+sudo usermod -aG developers john
+```
+
+Check:
+
+```bash
+groups john
+```
+
+You might see:
+
+```text
+john : john developers
+```
+
+### Important
+
+Use:
+
+```bash
+-aG
+```
+
+instead of only:
+
+```bash
+-G
+```
+
+because `-aG` **adds** the group without removing the user's existing supplementary groups.
+
+---
+
+# 5. Create a File
+
+```bash
+touch project.txt
+```
+
+Check its permissions:
+
+```bash
+ls -l project.txt
+```
+
+Example:
+
+```text
+-rw-r--r--  1 john developers  0 Oct 6 13:00 project.txt
+```
+
+The permission section is:
+
+```text
+-rw-r--r--
+```
+
+Break it down:
+
+```text
+- rw- r-- r--
+  │   │   │
+  │   │   └── Others
+  │   └────── Group
+  └────────── User/Owner
+```
+
+So:
+
+```text
+Owner  → rw-
+Group  → r--
+Others → r--
+```
+
+---
+
+# 6. Understanding `rwx`
+
+Numeric permissions use these values:
+
+```text
+r = 4
+w = 2
+x = 1
+```
+
+Therefore:
+
+| Permission | Value |
+|---|---:|
+| `---` | 0 |
+| `--x` | 1 |
+| `-w-` | 2 |
+| `-wx` | 3 |
+| `r--` | 4 |
+| `r-x` | 5 |
+| `rw-` | 6 |
+| `rwx` | 7 |
+
+For example:
+
+```text
+755
+```
+
+means:
+
+```text
+User    Group   Others
+rwx     r-x     r-x
+7       5       5
+```
+
+---
+
+# 7. Change Permissions with `chmod`
+
+Give the owner execute permission:
+
+```bash
+chmod u+x project.txt
+```
+
+Remove execute permission:
+
+```bash
+chmod u-x project.txt
+```
+
+Give the group write permission:
+
+```bash
+chmod g+w project.txt
+```
+
+Remove group write permission:
+
+```bash
+chmod g-w project.txt
+```
+
+Give others read permission:
+
+```bash
+chmod o+r project.txt
+```
+
+Remove others' read permission:
+
+```bash
+chmod o-r project.txt
+```
+
+Where:
+
+```text
+u = user/owner
+g = group
+o = others
+a = all
+```
+
+---
+
+# 8. Numeric Permissions
+
+## `chmod 700`
+
+```bash
+chmod 700 file.txt
+```
+
+Means:
+
+```text
+Owner  → rwx
+Group  → ---
+Others → ---
+```
+
+Useful for private files/directories.
+
+---
+
+## `chmod 755`
+
+```bash
+chmod 755 script.sh
+```
+
+Means:
+
+```text
+Owner  → rwx
+Group  → r-x
+Others → r-x
+```
+
+Common for executable scripts and directories.
+
+---
+
+## `chmod 644`
+
+```bash
+chmod 644 file.txt
+```
+
+Means:
+
+```text
+Owner  → rw-
+Group  → r--
+Others → r--
+```
+
+Common for normal files.
+
+---
+
+## `chmod 600`
+
+```bash
+chmod 600 secret.txt
+```
+
+Means:
+
+```text
+Owner  → rw-
+Group  → ---
+Others → ---
+```
+
+Useful for private configuration files and credentials.
+
+---
+
+# 9. Change File Owner
+
+Change the owner:
+
+```bash
+sudo chown bob project.txt
+```
+
+Change owner and group:
+
+```bash
+sudo chown bob:developers project.txt
+```
+
+Check:
+
+```bash
+ls -l project.txt
+```
+
+---
+
+# 10. Change Only the Group
+
+```bash
+sudo chgrp developers project.txt
+```
+
+Now the file can have:
+
+```text
+Owner  → bob
+Group  → developers
+Others → ...
+```
+
+---
+
+# 11. Directory Permissions
+
+Create a directory:
+
+```bash
+mkdir project
+```
+
+Give it standard permissions:
+
+```bash
+chmod 755 project
+```
+
+For a private directory:
+
+```bash
+chmod 700 project
+```
+
+For a shared developers directory:
+
+```bash
+sudo chown -R root:developers project
+sudo chmod -R 770 project
+```
+
+This gives:
+
+```text
+root       → rwx
+developers → rwx
+others     → ---
+```
+
+Therefore:
+
+```text
+developers → can access
+other users → cannot access
+```
+
+---
+
+# 12. Practical Shared Project Example
+
+Suppose you have three users:
+
+```text
+john
+alice
+bob
+```
+
+Create a shared group:
+
+```bash
+sudo groupadd devops
+```
+
+Add the users:
+
+```bash
+sudo usermod -aG devops john
+sudo usermod -aG devops alice
+sudo usermod -aG devops bob
+```
+
+Create a shared directory:
+
+```bash
+sudo mkdir /devops
+```
+
+Set the group:
+
+```bash
+sudo chown root:devops /devops
+```
+
+Set permissions:
+
+```bash
+sudo chmod 770 /devops
+```
+
+Result:
+
+```text
+root        → rwx
+devops      → rwx
+everyone    → ---
+```
+
+So:
+
+```text
+john  → access
+alice → access
+bob   → access
+other → no access
+```
+
+---
+
+# 13. Check a User's Groups
+
+```bash
+groups john
+```
+
+or:
+
+```bash
+id john
+```
+
+Example:
+
+```text
+uid=1001(john)
+gid=1001(john)
+groups=1001(john),1005(devops)
+```
+
+---
+
+# 14. Remove a User from a Group
+
+On Linux:
+
+```bash
+sudo gpasswd -d john devops
+```
+
+Check:
+
+```bash
+groups john
+```
+
+---
+
+# 15. Delete a User
+
+```bash
+sudo userdel john
+```
+
+Delete the user and their home directory:
+
+```bash
+sudo userdel -r john
+```
+
+Be careful with:
+
+```bash
+-r
+```
+
+because it deletes the user's home directory and its contents.
+
+---
+
+# 16. Delete a Group
+
+```bash
+sudo groupdel devops
+```
+
+---
+
+# 17. Important Permission Commands
+
+### View permissions
+
+```bash
+ls -l
+```
+
+### Change permissions
+
+```bash
+chmod 755 file
+```
+
+### Change owner
+
+```bash
+sudo chown john file
+```
+
+### Change owner and group
+
+```bash
+sudo chown john:developers file
+```
+
+### Change group
+
+```bash
+sudo chgrp developers file
+```
+
+### Create user
+
+```bash
+sudo useradd -m john
+```
+
+### Create group
+
+```bash
+sudo groupadd developers
+```
+
+### Add user to group
+
+```bash
+sudo usermod -aG developers john
+```
+
+### Check user
+
+```bash
+id john
+```
+
+### Check groups
+
+```bash
+groups john
+```
+
+---
+
+# 18. Quick Permission Cheat Sheet
+
+```text
+r = 4
+w = 2
+x = 1
+```
+
+| Numeric | Permission | Meaning |
+|---:|---|---|
+| `000` | `---------` | No access |
+| `400` | `r--------` | Owner read |
+| `600` | `rw-------` | Owner read/write |
+| `644` | `rw-r--r--` | Owner read/write, others read |
+| `700` | `rwx------` | Owner full access |
+| `755` | `rwxr-xr-x` | Owner full, others read/execute |
+| `770` | `rwxrwx---` | Owner/group full access |
+| `775` | `rwxrwxr-x` | Owner/group full, others read/execute |
+| `777` | `rwxrwxrwx` | Everyone full access |
+
+## Important Security Note
+
+Avoid using:
+
+```bash
+chmod 777
+```
+
+unless you have a specific reason.
+
+It gives:
+
+```text
+Owner  → rwx
+Group  → rwx
+Others → rwx
+```
+
+which can create unnecessary security risks.
+
+For production systems, prefer the **least privilege** required by the application.
