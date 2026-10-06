@@ -2350,3 +2350,110 @@ SCHEDULING  → cron
 ```
 
 Use this file as a practical Linux + DevOps reference.
+# Understanding `2>/dev/null` in Linux/macOS
+
+`2>/dev/null` is a **Linux/macOS shell command** used to **hide error messages**.
+
+## 1. `2` = stderr
+
+Every command has standard streams:
+
+| Number | Name | Meaning |
+|---|---|---|
+| `0` | stdin | Input |
+| `1` | stdout | Normal output |
+| `2` | stderr | Error output |
+
+So:
+
+```bash
+2>
+```
+
+means **redirect error output**.
+
+## 2. `/dev/null` = discard it
+
+`/dev/null` is like a **black hole**. Anything sent there is discarded.
+
+Therefore:
+
+```bash
+2>/dev/null
+```
+
+means:
+
+> **Send all error messages somewhere that ignores/discards them.**
+
+## Example without it
+
+If you run:
+
+```bash
+find / -name "ProtectionCharts.tsx"
+```
+
+macOS may show:
+
+```text
+find: /System/Library/...: Operation not permitted
+find: /private/var/...: Operation not permitted
+find: /usr/sbin/...: Permission denied
+```
+
+These are **errors** going to stderr (`2`).
+
+## Example with it
+
+```bash
+find / -name "ProtectionCharts.tsx" 2>/dev/null
+```
+
+Those permission errors are hidden.
+
+You will only see useful results such as:
+
+```text
+/Users/gisfydevelop/Desktop/ARP_Frontend_Dev_Env/src/components/ProtectionCharts.tsx
+```
+
+## What about `1>/dev/null`?
+
+That hides **normal output**:
+
+```bash
+find / -name "ProtectionCharts.tsx" 1>/dev/null
+```
+
+You won't see the matching files.
+
+## What about `>/dev/null 2>&1`?
+
+This hides **both normal output and errors**:
+
+```bash
+command >/dev/null 2>&1
+```
+
+Meaning:
+
+- `>/dev/null` → hide normal output
+- `2>&1` → send errors to the same place as normal output
+- Result → **everything is hidden**
+
+## Common pattern
+
+For your Mac file search:
+
+```bash
+find ~ -name "ProtectionCharts.tsx" 2>/dev/null
+```
+
+This means:
+
+- `find ~` → search your home directory
+- `-name "ProtectionCharts.tsx"` → look for that exact filename
+- `2>/dev/null` → ignore permission errors
+
+So you get a clean result without all the macOS permission noise.
